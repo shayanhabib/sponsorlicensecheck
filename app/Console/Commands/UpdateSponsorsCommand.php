@@ -1,0 +1,4 @@
+<?php
+namespace App\Console\Commands;
+use App\Services\SponsorImportService;use Illuminate\Console\Command;
+class UpdateSponsorsCommand extends Command{protected $signature='sponsors:update';protected $description='Download and import the latest live GOV.UK sponsor licence register CSV.';public function handle(SponsorImportService $service):int{$this->info('Downloading latest GOV.UK sponsor register...');$bar=$this->output->createProgressBar();$stats=$service->import(fn()=>$bar->advance());$bar->finish();$this->newLine(2);$this->table(['Metric','Value'],[['Downloaded rows',$stats->downloaded],['Imported rows',$stats->imported],['Updated rows',$stats->updated],['Skipped rows',$stats->skipped],['Failed rows',$stats->failed],['Import duration',number_format($stats->duration,2).'s']]);return self::SUCCESS;}}
