@@ -29,9 +29,7 @@ docker compose exec app php artisan sponsors:update
 php artisan sponsors:update
 ```
 
-The Laravel importer downloads the current GOV.UK publication page, discovers the latest CSV link dynamically, validates the CSV, parses quoted rows with `SplFileObject`, upserts sponsors in chunks, records import logs and rolls back on failure.
-
-If Composer dependencies are not installed, `artisan` exposes a standalone emergency importer for `sponsors:update` only. It still downloads the live GOV.UK page and CSV, then writes to `storage/app/sponsors.sqlite`; this keeps the operational import command testable in constrained build environments and is not used when Laravel dependencies are present.
+The importer downloads the current GOV.UK publication page, discovers the latest CSV link dynamically, validates the CSV, parses quoted rows with `SplFileObject`, upserts sponsors in chunks, records import logs and rolls back on failure.
 
 ## Scheduler
 
@@ -59,7 +57,7 @@ Use `docker/nginx/default.conf` as the production baseline and update `server_na
 
 ## Default admin credentials
 
-The seeder creates `admin@example.com` with password `ChangeMeImmediately!` for first boot. Change it immediately and set `ADMIN_EMAILS` to the comma-separated list of authorized admin email addresses.
+Create an admin user with Laravel Tinker or your identity provider and set `ADMIN_EMAILS=admin@example.com`. No password is hardcoded in this repository.
 
 ## API
 
